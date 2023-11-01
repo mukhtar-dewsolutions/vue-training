@@ -1,1 +1,1 @@
-first task for vue js training
+first task (login) for vue js training.
