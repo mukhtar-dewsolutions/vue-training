@@ -1,22 +1,13 @@
 <template>
   <div>
-    <Login />
-    <Child v-if="false" msg="Welcome to my 'Vue.js + TypeScript' app" />
+    <router-view />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import Child from "./components/Child.vue";
-import Login from "./components/Login.vue";
-
-export default defineComponent({
+<script>
+export default {
   name: "App",
-  components: {
-    Login,
-    Child,
-  },
-});
+};
 </script>
 
 <style>

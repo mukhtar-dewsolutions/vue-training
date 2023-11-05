@@ -7,21 +7,34 @@
           <p>Please enter your credentials to login.</p>
         </div>
       </div>
-      <form class="login-form">
-        <input type="text" placeholder="username" />
-        <input type="password" placeholder="password" />
-        <button>login</button>
+      <div class="login-form">
+        <input v-model="username" type="text" placeholder="username" />
+        <input v-model="password" type="password" placeholder="password" />
+        <button @click="loginClick">login</button>
         <p class="message">Not registered? <a href="#">Create an account</a></p>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useUserStore } from "../store/user";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "LoginPage",
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
+  methods: {
+    loginClick() {
+      console.log(this.username, this.password);
+    },
+  },
 });
 </script>
 
@@ -85,3 +98,4 @@ header a img {
   text-decoration: none;
 }
 </style>
+../store
