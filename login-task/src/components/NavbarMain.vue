@@ -6,9 +6,13 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
+        <router-link
+          v-for="category in categoriesData"
+          :key="category"
+          :to="`/category/${category}`"
+        >
+          {{ category }}
+        </router-link>
       </div>
     </div>
     <router-link to="/user-dashboard">Profile</router-link>
@@ -16,11 +20,43 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, computed } from "vue";
+import { useCategoriesStore } from "../store/categories";
 
 export default defineComponent({
   setup() {
-    return;
+    const categoriesStore = useCategoriesStore();
+    const categoriesData = computed(() => categoriesStore.categories);
+
+    const getCategories = () => {
+      fetch("https://dummyjson.com/products/categories", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Categories load failed");
+          }
+        })
+        .then((categoriesData) => {
+          categoriesStore.setCategories(categoriesData);
+        })
+        .catch((error) => {
+          console.error("Something went wrong:", error);
+        });
+    };
+
+    onMounted(() => {
+      getCategories();
+    });
+
+    return {
+      categoriesData,
+    };
   },
 });
 </script>
