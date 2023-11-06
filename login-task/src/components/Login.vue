@@ -55,7 +55,7 @@ export default defineComponent({
           userStore.setUser(userData);
           window.localStorage.setItem("token", userData.token);
 
-          this.router.push("/user-dashboard");
+          this.router.push("/home");
         })
         .catch((error) => {
           console.error("Login failed:", error);

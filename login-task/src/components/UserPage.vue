@@ -7,22 +7,29 @@
     <p>
       <button>Username: {{ username }}</button>
     </p>
-    <router-link to="/"><button>Back</button></router-link>
+    <button @click="goBack">Back</button>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useUserStore } from "../store/user";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "UserDashboard",
   setup() {
     const userStore = useUserStore();
     const userData = { ...userStore.$state };
+    const router = useRouter();
+
+    const goBack = () => {
+      router.back();
+    };
 
     return {
       ...userData,
+      goBack,
     };
   },
 });
