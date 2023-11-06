@@ -1,3 +1,17 @@
 <template>
-  <h1>Welcome to the homepage</h1>
+  <div>
+    <NavbarMain />
+    <h1>Welcome to the homepage</h1>
+  </div>
 </template>
+
+<script>
+import NavbarMain from "./NavbarMain.vue";
+
+export default {
+  name: "HomePage",
+  components: {
+    NavbarMain,
+  },
+};
+</script>
