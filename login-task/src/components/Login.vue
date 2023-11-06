@@ -27,6 +27,7 @@ export default defineComponent({
   name: "LoginPage",
   data() {
     return {
+      router: useRouter(),
       username: "",
       password: "",
     };
@@ -39,8 +40,8 @@ export default defineComponent({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: this.username,
-          password: this.password,
+          username: "kminchelle",
+          password: "0lelplR",
         }),
       })
         .then((response) => {
@@ -53,9 +54,10 @@ export default defineComponent({
         .then((userData) => {
           const userStore = useUserStore();
           userStore.setUser(userData);
+          window.localStorage.setItem("token", userData.token);
 
-          const router = useRouter();
-          router.push("/user-dashboard");
+          console.log(this.router, "reached here");
+          this.router.push("/user-dashboard");
         })
         .catch((error) => {
           console.error("Login failed:", error);

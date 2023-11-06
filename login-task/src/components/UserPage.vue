@@ -7,6 +7,7 @@
     <p>
       <button>Username: {{ username }}</button>
     </p>
+    <router-link to="/"><button>Back</button></router-link>
   </div>
 </template>
 
