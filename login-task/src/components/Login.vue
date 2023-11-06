@@ -6,7 +6,6 @@
           <h3>LOGIN</h3>
           <p>Please enter your credentials to login.</p>
         </div>
-        <router-link to="/user-dashboard">Go to User Dashboard</router-link>
       </div>
       <div class="login-form">
         <input v-model="username" type="text" placeholder="username" />
