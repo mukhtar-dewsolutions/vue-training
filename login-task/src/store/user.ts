@@ -3,33 +3,30 @@ import { defineStore } from 'pinia';
 interface UserState {
   username: string;
   id: number;
-  firstname: string;
-  lastname: string;
-  imageurl: string;
-  token: string;
+  firstName: string;
+  lastName: string;
+  image: string;
   gender: string;
   email: string;
 }
 
 export const useUserStore = defineStore('user', {
   state: (): UserState => ({
-    username: 'null',
+    username: '',
     id: null,
-    firstname: 'null',
-    lastname: 'null',
-    imageurl: 'null',
-    token: 'null',
-    gender: 'null',
-    email: 'null',
+    firstName: '',
+    lastName: '',
+    image: '',
+    gender: '',
+    email: '',
   }),
   actions: {
     setUser(user: UserState) {
       this.username = user.username;
       this.id = user.id;
-      this.firstname = user.firstname;
-      this.lastname = user.lastname;
-      this.imageurl = user.imageurl;
-      this.token = user.token;
+      this.firstName = user.firstName;
+      this.lastName = user.lastName;
+      this.image = user.image;
       this.gender = user.gender;
       this.email = user.email;
     },

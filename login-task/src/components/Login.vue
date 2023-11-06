@@ -6,6 +6,7 @@
           <h3>LOGIN</h3>
           <p>Please enter your credentials to login.</p>
         </div>
+        <router-link to="/user-dashboard">Go to User Dashboard</router-link>
       </div>
       <div class="login-form">
         <input v-model="username" type="text" placeholder="username" />
@@ -17,7 +18,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
 import { useUserStore } from "../store/user";
 import { useRouter } from "vue-router";
@@ -32,7 +33,33 @@ export default defineComponent({
   },
   methods: {
     loginClick() {
-      console.log(this.username, this.password);
+      fetch("https://dummyjson.com/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: this.username,
+          password: this.password,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Login failed");
+          }
+        })
+        .then((userData) => {
+          const userStore = useUserStore();
+          userStore.setUser(userData);
+
+          const router = useRouter();
+          router.push("/user-dashboard");
+        })
+        .catch((error) => {
+          console.error("Login failed:", error);
+        });
     },
   },
 });

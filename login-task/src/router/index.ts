@@ -1,8 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
+import LoginPage from "../components/Login.vue";
+import UserDashboard from "../components/UserPage.vue";
 
 const routes = [
-  { path: '/', component: () => import('../components/Login.vue') },
-  { path: '/user-dashboard', component: () => import('../components/UserPage.vue') },
+  {
+    path: "/",
+    name: "LoginPage",
+    component: LoginPage,
+  },
+  {
+    path: "/user-dashboard",
+    name: "UserDashboard",
+    component: UserDashboard,
+  },
 ];
 
 const router = createRouter({
