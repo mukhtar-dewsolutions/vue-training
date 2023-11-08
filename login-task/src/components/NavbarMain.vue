@@ -22,10 +22,12 @@
 <script>
 import { defineComponent, onMounted, computed } from "vue";
 import { useCategoriesStore } from "../store/categories";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
     const categoriesStore = useCategoriesStore();
+    const router = useRouter();
     const categoriesData = computed(() => categoriesStore.categories);
     const categoryProductData = computed(
       () => categoriesStore.categoryProductList
@@ -42,6 +44,8 @@ export default defineComponent({
         })
         .then((productsData) => {
           categoriesStore.setCategoryProductList(productsData);
+          console.log(categoryProductData);
+          router.push(`/product-listing/${category}`);
         })
         .catch((error) => {
           console.error("Something went wrong:", error);
