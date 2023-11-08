@@ -29,9 +29,6 @@ export default defineComponent({
     const categoriesStore = useCategoriesStore();
     const router = useRouter();
     const categoriesData = computed(() => categoriesStore.categories);
-    const categoryProductData = computed(
-      () => categoriesStore.categoryProductList
-    );
 
     const getCategoryProducts = (category) => {
       fetch(`https://dummyjson.com/products/category/${category}`)
@@ -43,8 +40,7 @@ export default defineComponent({
           }
         })
         .then((productsData) => {
-          categoriesStore.setCategoryProductList(productsData);
-          console.log(categoryProductData);
+          categoriesStore.setCategoryProductList(productsData.products);
           router.push(`/product-listing/${category}`);
         })
         .catch((error) => {
@@ -72,7 +68,6 @@ export default defineComponent({
     onMounted(() => {
       getCategories();
     });
-    console.log(categoryProductData, "product data");
     return {
       categoriesData,
       getCategoryProducts,

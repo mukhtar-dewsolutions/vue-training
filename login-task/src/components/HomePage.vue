@@ -9,7 +9,7 @@
 import NavbarMain from "./NavbarMain.vue";
 
 export default {
-  name: "HomePage",
+  name: "App",
   components: {
     NavbarMain,
   },

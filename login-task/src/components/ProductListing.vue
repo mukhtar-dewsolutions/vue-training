@@ -1,18 +1,34 @@
 <template>
-  <div class="product-card">
-    <div class="badge">4.7 &starf;</div>
-    <div class="product-tumb">
-      <img src="https://i.imgur.com/xdbHo4E.png" alt="" />
-    </div>
-    <div class="product-details">
-      <span class="product-catagory">brand, category</span>
-      <h4><a href="">title</a></h4>
-      <p>description</p>
-      <div class="product-bottom-details">
-        <div class="product-price"><small>discounted price</small>price</div>
-        <div class="product-links">
-          <a href=""><i class="fa fa-heart"></i></a>
-          <a href=""><i class="fa fa-shopping-cart"></i></a>
+  <div>
+    <h1>Products in {{ currentCategory.category }}</h1>
+    <div class="cardList">
+      <div v-for="item in itemList" :key="item.id" class="product-card">
+        <div class="badge">{{ item.rating.toFixed(1) }} &starf;</div>
+        <div class="product-tumb">
+          <img :src="item.thumbnail" :alt="item.title" />
+        </div>
+        <div class="product-details">
+          <span class="product-catagory"
+            >{{ item.brand }}, {{ item.category }}</span
+          >
+          <h4>
+            <a href="">{{ item.title }}</a>
+          </h4>
+          <p>{{ item.description }}</p>
+          <div class="product-bottom-details">
+            <div class="product-price">
+              <small>${{ item.price }}</small>
+              ${{
+                Math.round(
+                  (item.price / 100) * item.discountPercentage - item.price
+                )
+              }}
+            </div>
+            <div class="product-links">
+              <a href=""><i class="fa fa-heart"></i></a>
+              <a href=""><i class="fa fa-shopping-cart"></i></a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -20,17 +36,29 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
+import { useCategoriesStore } from "../store/categories";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   setup() {
-    return;
+    const categoriesStore = useCategoriesStore();
+    const route = useRoute();
+    const productListData = computed(() => categoriesStore.categoryProductList);
+    const itemList = computed(() => {
+      return productListData.value || [];
+    });
+    const currentCategory = route.params;
+
+    return {
+      itemList,
+      currentCategory,
+    };
   },
 });
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -44,11 +72,17 @@ body {
 a {
   text-decoration: none;
 }
+
+.cardList {
+  display: flex;
+  margin-top: 10px;
+}
+
 .product-card {
   width: 380px;
   position: relative;
   box-shadow: 0 2px 7px #dfdfdf;
-  margin: 50px auto;
+  margin: 10px;
   background: #fafafa;
 }
 
@@ -68,14 +102,13 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 300px;
-  padding: 50px;
   background: #f0f0f0;
 }
 
 .product-tumb img {
-  max-width: 100%;
-  max-height: 100%;
+  height: 300px;
+  width: 300px;
+  object-fit: contain;
 }
 
 .product-details {
