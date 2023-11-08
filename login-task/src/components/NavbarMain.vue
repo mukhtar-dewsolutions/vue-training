@@ -6,13 +6,13 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <router-link
+        <button
           v-for="category in categoriesData"
           :key="category"
-          :to="`/category/${category}`"
+          @click="getCategoryProducts(category)"
         >
           {{ category }}
-        </router-link>
+        </button>
       </div>
     </div>
     <router-link to="/user-dashboard">Profile</router-link>
@@ -27,14 +27,12 @@ export default defineComponent({
   setup() {
     const categoriesStore = useCategoriesStore();
     const categoriesData = computed(() => categoriesStore.categories);
+    const categoryProductData = computed(
+      () => categoriesStore.categoryProductList
+    );
 
-    const getCategories = () => {
-      fetch("https://dummyjson.com/products/categories", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+    const getCategoryProducts = (category) => {
+      fetch(`https://dummyjson.com/products/category/${category}`)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -42,8 +40,25 @@ export default defineComponent({
             throw new Error("Categories load failed");
           }
         })
-        .then((categoriesData) => {
-          categoriesStore.setCategories(categoriesData);
+        .then((productsData) => {
+          categoriesStore.setCategoryProductList(productsData);
+        })
+        .catch((error) => {
+          console.error("Something went wrong:", error);
+        });
+    };
+
+    const getCategories = () => {
+      fetch("https://dummyjson.com/products/categories")
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Categories load failed");
+          }
+        })
+        .then((categories) => {
+          categoriesStore.setCategories(categories);
         })
         .catch((error) => {
           console.error("Something went wrong:", error);
@@ -53,9 +68,10 @@ export default defineComponent({
     onMounted(() => {
       getCategories();
     });
-
+    console.log(categoryProductData, "product data");
     return {
       categoriesData,
+      getCategoryProducts,
     };
   },
 });
